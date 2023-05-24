@@ -20,6 +20,7 @@ app.get("/callback", (req, res) => {
   axios
     .get(`${returnAPI}/api/user/callback?originAPI=${originAPI}`, { headers })
     .then((response) => {
+      console.log(response.data);
       res.send(response.data);
     })
     .catch((error) => {
@@ -34,5 +35,5 @@ app.get("/api/user/connect", (req, res) => {
 
 // Inicia o servidor na porta 3000
 app.listen(3500, () => {
-  console.log(`Cliente iniciado na porta 3500`);
+  console.log(`Cliente iniciado na porta `);
 });

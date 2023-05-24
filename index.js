@@ -19,7 +19,6 @@ app.get("/callback", (req, res) => {
   axios
     .get(`${returnAPI}/api/user/callback?originAPI=${originAPI}`, { headers })
     .then((response) => {
-      console.log(response.data);
       res.send(response.data);
     })
     .catch((error) => {

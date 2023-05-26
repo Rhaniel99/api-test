@@ -11,7 +11,7 @@ app.get("/callback", (req, res) => {
   // Configuração dos cabeçalhos
   const headers = {
     authorization:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5hbWUiOiJDJ2VzdCBsYSB2aWUgQVBJIiwidXJsRG9tYWluIjoiQVBJLTM1MDAiLCJ0b2tlbiI6IjFjMThiZjNmLWQwOGMtNGE4Yi1hMDc4LWMzN2U5ZmZkNDY2YyJ9LCJpYXQiOjE2ODQ5NDY0MDN9.TMxA5H-NKw39aqzuuq9VVPJDflAcRAO07fifKJh-cyw",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5hbWUiOiJDJ2VzdCBsYSB2aWUgQVBJIiwidXJsRG9tYWluIjoiQVBJLTM1MDAiLCJ0b2tlbiI6IjFkNGIxYTVmLTAzNzUtNGYyNC05OWYwLTAzNmQ3ZDhhMWM3OCJ9LCJpYXQiOjE2ODUxMTY2NjB9.jkCU7bykrbQ1jVXQD2cuAQXnrvtV-_-S73EKAn7bOkg",
     "Content-Type": "application/json",
   };
 

@@ -9,7 +9,16 @@
 
   <script>
     function redirecionar() {
-      window.location.href = '/callback';
+      fetch('/login')
+        .then(response => response.json())
+        .then(data => {
+          const redirectUrl = data.redirectUrl;
+          const token = data.
+          console.log(redirectUrl);
+          console.log()
+          window.location.href = redirectUrl;
+        })
+        .catch(error => console.error(error));
     }
   </script>
 </body>

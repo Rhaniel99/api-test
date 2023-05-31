@@ -38,7 +38,8 @@ app.get("/oauth/seduc/callback", (req, res) => {
         if (apiResponse.ok) {
           // A requisição para a API protegida foi bem-sucedida
           // Redirecione o usuário para outra página
-          res.send("ok.");
+          console.log(apiResponse);
+          res.send("ok");
         } else {
           // A requisição para a API protegida falhou
           // Faça algo para lidar com o erro

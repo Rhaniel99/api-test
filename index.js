@@ -10,10 +10,11 @@ app.get("/oauth/seduc/callback", (req, res) => {
   const clientSecret = "123"; // Substituir pelo segredo do cliente
   const redirectUri = "http://localhost:3500/oauth/seduc/callback"; // URL de redirecionamento do cliente
 
+
+  
   // Trocar o código de autorização por um token de acesso
   const tokenEndpoint = `${authorizationServer}/api/user/callback`;
   const params = {
-    code: req.query.code,
     client_id: clientId,
     client_secret: clientSecret,
     redirect_uri: redirectUri,
@@ -33,16 +34,16 @@ app.get("/oauth/seduc/callback", (req, res) => {
       fetch(`${authorizationServer}/api/user/protegida`, {
         headers: { authorization: `Bearer ${accessToken}` },
       })
-        .then((apiResponse) => {
-          if (apiResponse.ok) {
-            apiResponse.text().then((pageContent) => {
-              // Renderize a página recebida do servidor
-              res.send(pageContent);
-            });
-          } else {
-            res.status(apiResponse.status).send("Erro na autenticação");
-          }
-        })
+      .then((apiResponse) => {
+        if (apiResponse.ok) {
+          // A requisição para a API protegida foi bem-sucedida
+          // Redirecione o usuário para outra página
+          res.send("ok.");
+        } else {
+          // A requisição para a API protegida falhou
+          // Faça algo para lidar com o erro
+        }
+      })
         .catch((error) => {
           console.error(error);
           res.status(500).send("Erro na autenticação");

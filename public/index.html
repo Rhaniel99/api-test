@@ -9,16 +9,7 @@
 
   <script>
     function redirecionar() {
-      fetch('/login')
-        .then(response => response.json())
-        .then(data => {
-          const redirectUrl = data.redirectUrl;
-          const token = data.
-          console.log(redirectUrl);
-          console.log()
-          window.location.href = redirectUrl;
-        })
-        .catch(error => console.error(error));
+      window.location.href = '/oauth/seduc/callback';
     }
   </script>
 </body>

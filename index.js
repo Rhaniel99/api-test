@@ -4,18 +4,18 @@ app.use(express.static("./public"));
 
 // Rota para o redirecionamento
 app.get("/oauth/seduc/callback", (req, res) => {
-  const authorizationServer = "http://localhost:4000"; // URL do servidor OAuth 2.0
-  const clientId = "1"; // Substituir pelo ID do cliente
-  const clientSecret = "SECRET"; // Substituir pelo segredo do cliente
-  const redirectUri = "http://localhost:3500/oauth/seduc/callback"; // URL de redirecionamento do cliente
+  const urlServer = "http://localhost:4000"; 
+  const clientId = "e320e4b6-be05-46b7-a5b5-01367f103f8d";
+  const clientSecret = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVybF9kb21haW4iOiJodHRwOi8vbG9jYWxob3N0OjM1MDAifSwiaWF0IjoxNjg1NjQ5NjU2fQ.Yz50E4KeL6IqkH2HIAWPKlNMeqxdK9tBgw-pgWxJvDU";
+  const urlCB = "http://localhost:3500/oauth/seduc/callback"; // URL de redirecionamento do cliente
 
   // Trocar o código de autorização por um token de acesso
-  const tokenEndpoint = `${authorizationServer}/api/user/callback`;
+  const tokenEndpoint = `${urlServer}/api/user/callback`;
   const params = {
     client_id: clientId,
     client_secret: clientSecret,
-    redirect_uri: redirectUri,
-    grant_type: "authorization_code",
+    redirect_uri: urlCB,
+    grant_type: "client_credentials",
   };
 
   fetch(tokenEndpoint, {

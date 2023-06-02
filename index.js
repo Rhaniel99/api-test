@@ -4,26 +4,20 @@ const app = express();
 app.use(express.static("./public"));
 
 
-// Rota para o redirecionamento
+// Rota para o callback
 app.get("/callback", (req, res) => {
   const returnAPI = "http://localhost:4000"; // URL da API na porta 4000
   const originAPI = req.query.api || "API-3500";
 
-  // Configuração dos cabeçalhos
-  const headers = {
-    authorization:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5hbWUiOiJDJ2VzdCBsYSB2aWUgQVBJIiwidXJsRG9tYWluIjoiQVBJLTM1MDAiLCJ0b2tlbiI6IjFjMThiZjNmLWQwOGMtNGE4Yi1hMDc4LWMzN2U5ZmZkNDY2YyJ9LCJpYXQiOjE2ODQ5NDY0MDN9.TMxA5H-NKw39aqzuuq9VVPJDflAcRAO07fifKJh-cyw",
-    "Content-Type": "application/json",
-  };
 
   // Envia uma solicitação GET usando o Axios
   axios
-    .get(`${returnAPI}/api/user/callback?originAPI=${originAPI}`, { headers })
+    .get(`${returnAPI}/api/user/callback?originAPI=${originAPI}`)
     .then((response) => {
-      console.log(response.data);
       res.send(response.data);
     })
     .catch((error) => {
+      console.log(error);
       res.status(500).send("Erro ao fazer a solicitação");
     });
 });

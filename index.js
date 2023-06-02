@@ -1,62 +1,38 @@
 const express = require("express");
+const axios = require("axios");
 const app = express();
 app.use(express.static("./public"));
 
 
 // Rota para o redirecionamento
-app.get("/oauth/seduc/callback", (req, res) => {
-  const authorizationServer = "http://localhost:4000"; // URL do servidor OAuth 2.0
-  const clientId = "1"; // Substituir pelo ID do cliente
-  const clientSecret = "123"; // Substituir pelo segredo do cliente
-  const redirectUri = "http://localhost:3500/oauth/seduc/callback"; // URL de redirecionamento do cliente
+app.get("/callback", (req, res) => {
+  const returnAPI = "http://localhost:4000"; // URL da API na porta 4000
+  const originAPI = req.query.api || "API-3500";
 
-
-  
-  // Trocar o código de autorização por um token de acesso
-  const tokenEndpoint = `${authorizationServer}/api/user/callback`;
-  const params = {
-    client_id: clientId,
-    client_secret: clientSecret,
-    redirect_uri: redirectUri,
-    grant_type: "authorization_code",
+  // Configuração dos cabeçalhos
+  const headers = {
+    authorization:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5hbWUiOiJDJ2VzdCBsYSB2aWUgQVBJIiwidXJsRG9tYWluIjoiQVBJLTM1MDAiLCJ0b2tlbiI6IjFjMThiZjNmLWQwOGMtNGE4Yi1hMDc4LWMzN2U5ZmZkNDY2YyJ9LCJpYXQiOjE2ODQ5NDY0MDN9.TMxA5H-NKw39aqzuuq9VVPJDflAcRAO07fifKJh-cyw",
+    "Content-Type": "application/json",
   };
 
-  fetch(tokenEndpoint, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(params),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      const accessToken = data.access_token;
-      fetch(`${authorizationServer}/api/user/protegida`, {
-        headers: { authorization: `Bearer ${accessToken}` },
-      })
-      .then((apiResponse) => {
-        if (apiResponse.ok) {
-          // A requisição para a API protegida foi bem-sucedida
-          // Redirecione o usuário para outra página
-          console.log(apiResponse);
-          res.send("ok");
-        } else {
-          // A requisição para a API protegida falhou
-          // Faça algo para lidar com o erro
-        }
-      })
-        .catch((error) => {
-          console.error(error);
-          res.status(500).send("Erro na autenticação");
-        });
+  // Envia uma solicitação GET usando o Axios
+  axios
+    .get(`${returnAPI}/api/user/callback?originAPI=${originAPI}`, { headers })
+    .then((response) => {
+      console.log(response.data);
+      res.send(response.data);
     })
     .catch((error) => {
-      console.error(error);
-      res.status(500).send("Erro na autenticação");
+      res.status(500).send("Erro ao fazer a solicitação");
     });
 });
 
+app.get("/api/user/connect", (req, res) => {
+  res.send("Resposta recebida do servidor");
+});
 
+// Inicia o servidor na porta 3000
 app.listen(3500, () => {
-  console.log("Cliente iniciado na porta 3500");
+  console.log(`Cliente iniciado na porta `);
 });

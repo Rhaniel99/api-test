@@ -1,13 +1,14 @@
 const express = require("express");
 const app = express();
 app.use(express.static("./public"));
+app.use(express.json());
 
 // Rota para o redirecionamento
 app.get("/oauth/seduc/callback", (req, res) => {
   const urlServer = "http://localhost:4000";
-  const clientId = "250ad033-0102-4c74-b68e-d6f611d1b8d0";
+  const clientId = "d6e4f837-ab19-404f-8cc4-66ab6f933a5f";
   const clientSecret =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVybF9kb21haW4iOiJodHRwOi8vbG9jYWxob3N0OjQ1MDAifSwiaWF0IjoxNjg2MTY2MzU4fQ.fxf2p4yqxObEFGKt7sznM2p-SOVcI0lKzfO6dcs-MTc";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVybF9kb21haW4iOiJodHRwOi8vbG9jYWxob3N0OjM1MDAifSwiaWF0IjoxNjg2ODQzNzg2fQ.WruzIhUjcb5tQK6VFl9c2fnaf4THr0ITA1pOwYjDgOA";
   const protocol = req.protocol;
   const host = req.get("host");
   const urlCB = `${protocol}://${host}/oauth/seduc/callback`; // URL de redirecionamento do cliente
@@ -48,6 +49,24 @@ app.get("/redirect", (req, res) => {
   res.redirect(`http://localhost:4000/api/user/protegida?token=${accessToken}`);
 });
 
-app.listen(4500, () => {
-  console.log("Cliente iniciado na porta 4500");
+app.post("/api/endpoint", (req, res) => {
+  const user = req.body;
+  const home = `http://localhost:3500/home?id=${user.id}&name=${user.name}&email=${user.email}&dateBirth=${user.dateBirth}&code=${user.code}`;
+  res.send(home);
+});
+
+app.get("/home", (req, res) => {
+  const { id, name, email, dateBirth, code } = req.query;
+  res.send(`
+    <h1>Dados do usuário</h1>
+    <p>ID: ${id}</p>
+    <p>Name: ${name}</p>
+    <p>Email: ${email}</p>
+    <p>Date of Birth: ${dateBirth}</p>
+    <p>Code: ${code}</p>
+  `);
+});
+
+app.listen(3500, () => {
+  console.log("Cliente iniciado na porta 3500");
 });

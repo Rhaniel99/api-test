@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 app.use(express.static("./public"));
 app.use(express.json());
+app.set('view engine', 'ejs');
+
 
 // Rota para o redirecionamento
 app.get("/oauth/seduc/callback", (req, res) => {
@@ -49,22 +51,17 @@ app.get("/redirect", (req, res) => {
   res.redirect(`http://localhost:4000/api/user/protegida?token=${accessToken}`);
 });
 
+
+
 app.post("/api/endpoint", (req, res) => {
   const user = req.body;
   const home = `http://localhost:3500/home?id=${user.id}&name=${user.name}&email=${user.email}&dateBirth=${user.dateBirth}&code=${user.code}`;
   res.send(home);
 });
 
-app.get("/home", (req, res) => {
+app.get('/home', (req, res) => {
   const { id, name, email, dateBirth, code } = req.query;
-  res.send(`
-    <h1>Dados do usuário</h1>
-    <p>ID: ${id}</p>
-    <p>Name: ${name}</p>
-    <p>Email: ${email}</p>
-    <p>Date of Birth: ${dateBirth}</p>
-    <p>Code: ${code}</p>
-  `);
+  res.render('user', { id, name, email, dateBirth, code });
 });
 
 app.listen(3500, () => {
